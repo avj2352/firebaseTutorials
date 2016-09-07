@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Firebase Essential</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="Main CSS">
+        <link rel="stylesheet" href="css/monokai.css" media="screen" title="Main CSS">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">Firebase Fundamentals</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="index.html">jQuery
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="angular.html">Angular</a>
+                        </li>
+                        <li> <a href="twitter.html">Twitter</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!-- end:Navbar -->
+        <!-- container -->
+        <div class="container">
+          <h1>Welcome to Angular Firebase</h1>
+          <p>The following courses are from Pluralsight</p>
+          <div class="well">
+              <ul>
+                <li>Pluralsight - Building Applications with Angular, Firebase &amp; AngularFire</li>
+                <li>Link: <a href="https://app.pluralsight.com/library/courses/building-apps-angular-firebase-angularfire/table-of-contents" target="_blank"> Pluralsight Link </a></li>
+              </ul>
+          </div>
+          <hr>
+          <h2>Table of Contents</h2>
+          <div class="well">
+            <ul>
+              <li>Introduction</li>
+              <li>Firebase Basics</li>
+              <li>Angular Fire</li>
+              <li>Authentication</li>
+              <li>$firebaseObject</li>
+              <li>$firebaseArray</li>
+              <li>new Components directive in Angular 1.5</li>
+              <li>New updates in Angular fire 1.2</li>
+            </ul>
+          </div>
+          <hr>
+          <h2> Security - in Firebase. </h2>
+          <p> The following are some of the features of Firebase when it comes to Security </p>
+          <div class="well">
+              <ul>
+                <li>Firebase looks for a specific ID - called UID</li>
+                <li>Firebase takes care of Authentication for you</li>
+                <li>Firebase has Authorization &amp; Validation rules that you can specify on the server side</li>
+              </ul>
+          </div>
+          <hr>
+          <h2>Introduction to Angular Fire</h2>
+          <p> NOTE: Remember, Angular Fire does not do all the things that Firebase can do. </p>
+          <p> Angular Fire requires the following different services: </p>
+          <div class="well">
+            <ul>
+              <li>$firebaseAuth - This service deals with Authorization in your application</li>
+              <li>$firebaseObject - This service lets you read and write data to your firebase </li>
+              <li>$firebaseArray - This service lets you read and write list based data in your firebase</li>
+              <li>Refs - This is a reference to the firebase DB, or Root reference using the Firebase object</li>
+            </ul>
+            <img src="img/angularfire_components_01.png" alt="AngularFire components" />
+          </div>
+          <hr>
+          <h2>Setting up your applications</h2>
+          <p> NOTE: for a Server, we can use the Node's http-server. Also, the following dependencies are required </p>
+          <pre>
+            <code class="javascript">
+              npm install http-server -g
+              npm install firebase --save-dev
+              npm install angular --save-dev
+              npm install angularfire --save-dev
+              npm install angular-route --save-dev
+
+              script type="text/javascript" src="js/jquery-1.11.2.min.js"
+              script type="text/javascript" src="js/bootstrap.min.js"
+              script type="text/javascript" src="js/firebase.js"
+              script type="text/javascript" src="js/angular.min.js"
+              script type="text/javascript" src="js/angularfire.min.js"
+              script type="text/javascript" src="js/angular-route.min.js"
+              script type="text/javascript" src="js/app.js"
+            </code>
+          </pre>
+          <hr>
+            <h2>Angular Best Practice for creating new Instance of Firebase</h2>
+            <p> Angular services (constants  + service ) provide a nice way to define a Firebase instance </p>
+            <p> Create a new script - fbUrl.js </p>
+            <pre>
+              <code class="javascript">
+                // Creating an Angular service - constant to house the Firebase url
+                // Super awesome thing we can do with Angular service - Anything with a new to it, can be invoked with service :D
+                (function(){
+                  angular.module('myApp').constant('FirebaseUrl','https://shwethapramodwedding.firebaseio.com/');
+                  angular.module('myApp').service('rootRef',['FirebaseUrl',Firebase]);
+                // NOTE: this is same as var rootRef = new Firebase('https://shwethapramodwedding.firebaseio.com/'); :D
+                }());//IIFE
+              </code>
+            </pre>
+            <hr>
+            <h2>Angular JS 1.5.x Introduction to the Component directive</h2>
+            <p> A component is a simpler hybrid version of a directive/ngRouter. It can be used to simply contain a template with a controller</p>
+            <ul>
+              <li>It accepts two parameters</li>
+              <li>First parameter - name of the component : This will be invoked in your html</li>
+              <li>Second parameter - An Object with two properties: templateUrl and controller</li>
+            </ul>
+            <p> the following shows a simple deconstructed usage of a component by the name - home </p>
+            <pre>
+              <code class="javascript">
+                (function(){
+                  var myApp = angular.module('myApp',[]);
+                  myApp.controller('mainController',['$scope','rootRef',mainController]);
+                  function mainController($scope, rootRef){
+                    var vm = $scope;
+                    vm.helloWorld = "Hello World";
+                  }//end:controller - mainController
+                  // One more way is to create a new Component directive of Angular 1.5.x
+                  // This will be invoked as &lt;home&gt;&lt;/home&gt; in your html
+                  myApp.component('home',{
+                    templateUrl:'/home/home.html',
+                    controller: mainController
+                  });//end:component
+                }());//IIFE
+
+              </code>
+            </pre>
+
+        </div><!-- end:container -->
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+        <script type="text/javascript" src="js/highlight.pack.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+        <script type="text/javascript" src="js/angular-animate.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </body>
+</html>

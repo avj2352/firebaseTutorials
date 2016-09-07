@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Firebase Essential</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="Main CSS">
+        <link rel="stylesheet" href="css/monokai.css" media="screen" title="Main CSS">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Firebase Fundamentals</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="index.html">jQuery
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="angular.html">Angular</a>
+                        </li>
+                        <li>
+                          <a href="twitter.html">Twitter</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!-- end:Navbar -->
+        <!-- container -->
+        <div class="container">
+          <h1>Welcome to Firebase Essentials</h1>
+          <p>The following courses are from Pluralsight</p>
+          <div class="well">
+              <ul>
+                <li>Pluralsight - Firebase Fundamentals</li>
+                <li>Link: <a href="https://app.pluralsight.com/library/courses/firebase-fundamentals/table-of-contents" target="_blank">https://app.pluralsight.com/library/courses/firebase-fundamentals/table-of-contents</a></li>
+              </ul>
+          </div>
+          <p>In order to work with Firebase client, include the following link into your page.</p>
+          <pre>
+            <code class="html">
+              src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"
+            </code>
+          </pre>
+          <hr>
+          <p> Before we begin, We will create a JSON which will be imported into our Collection in Firebase </p>
+          <div class="well">
+            <p> JSON Collection : <a href="https://shwethapramodwedding.firebaseio.com/" target="_blank">https://shwethapramodwedding.firebaseio.com/</a> </p>
+            <pre>
+              <code class="json">
+                {
+                  "wedding" : {
+                    "dbName" : "weddingDB",
+                    "date" : "Oct 10th - 14th 2016",
+                    "day" : "Friday",
+                    "venue" : "Zion #341, 13th Cross, 3rd Main Road, Kirloskar Layout, Hesaraghatta Main Road",
+                    "timings" : "11 AM - 12 PM",
+                    "name" : "Wedding Invitation",
+                    "venue" : "New Jersey, USA"
+                  },
+                  "comments":{
+                    "dbName":"commentsDB"
+                  }
+                }
+              </code>
+            </pre>
+          </div>
+          <hr>
+          <p>Accessing a Reference in Firebase is very simple, but very important</p>
+          <p> NOTE: Firebase does not have the concept of - ARRAYS </p>
+          <p> NOTE: there is no such thing as FOREIGN KEY in Firebase, Data design is such that the Foreign key is designed to be stored in multiple nodes for accessing.</p>
+          <pre>
+            <code class="javascript">
+              /*Main Firebase scripts will come here*/
+              (function($){
+                var url = "https://shwethapramodwedding.firebaseio.com/";
+                var weddingRef = new Firebase(url + "wedding/");
+                var commentsRef = new Firebase(url + "comments/");
+              }(jQuery));//IIFE jQuery
+            </code>
+          </pre>
+          <hr>
+          <h2>Referencing Child, Parent and Root in your Firebase application</h2>
+          <p> Referencing the Child, Parent and Root in your Firebase application is as simple as follows: </p>
+          <div class="well">
+            <p> Using the .child() , .parent() &amp; .root() methods: </p>
+            <pre>
+              <code class="javascript">
+                /*Main Firebase scripts will come here*/
+                (function($){
+                  var url = "https://shwethapramodwedding.firebaseio.com/";
+                  var weddingRef = new Firebase(url + "wedding/");
+                  var commentsRef = new Firebase(url + "comments/");
+
+                  //Referencing Child nodes in Firebase. Use the .child() method
+                  var dbname = commentsRef.child("dbName");
+                  //Referencing the Parent nodes in Firebase. Use the .parent() method
+                  var parentRef = dbname.parent();
+                  //Referencing the Root node in Firebase. Use the .root() method
+                  var baseRef = dbname.root();
+                }(jQuery));//IIFE jQuery
+              </code>
+            </pre>
+          </div>
+          <hr>
+          <h2>Data Design Principles of Firebase</h2>
+          <p> The following Data design principles must be considered for effective Firebase DB design &amp; management </p>
+          <div class="well">
+            <ul>
+              <li>Don't treat Firebase like a Relational DB</li>
+              <li>Use Root branches as your Primary containers</li>
+              <li>
+                <p> Avoid Deep Nesting </p>
+                <p> <img src="img/deepNesting_01.png" alt="deep nesting"/> </p>
+              </li>
+              <li> <p>Duplicate Data in the right place</p> </li>
+              <li>
+                  <p>Design around Data access</p>
+                  <ul>
+                    <li>Data design is driven by Data Access Needs</li>
+                    <li>Iterative Design</li>
+                  </ul>
+              </li>
+            </ul>
+          </div><!-- well -->
+          <hr>
+          <h2>Reading Data from Firebase</h2>
+          <p> We will be creating a fake, Twitter application. Link to the <a href="twitter.html">Twitter application is here</a>! <br>
+          The following shows the simple architecture of a Relational DB in Twitter application </p>
+          <p> <img src="img/tweeter_02.png" alt="twitter DB architecture"/> </p>
+          <div class="well"> NOTE: In order to proceed, We need to master some of the frameworks like - Underscore, React, Backbone or Angular</div>
+          <p>
+            Link: <a href="https://app.pluralsight.com/player?course=firebase-fundamentals&author=joe-eames&name=firebase-fundamentals-m3&clip=2&mode=live" target="_blank"> Continue with Firebase Fundamentals</a>
+          </p>
+
+
+
+
+
+
+
+
+
+
+
+
+        </div><!-- end:container -->
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"> </script>
+        <script type="text/javascript" src="js/highlight.pack.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </body>
+</html>
